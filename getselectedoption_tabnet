@@ -1,0 +1,17 @@
+import urllib, bs4, pandas
+from bs4 import BeautifulSoup
+import lxml
+
+soup = BeautifulSoup(urllib.request.urlopen("http://tabnet.datasus.gov.br/cgi/deftohtm.exe?sinannet/cnv/animaisbr").read(),"lxml");
+
+def_value = []
+for w in soup.find_all('select'):
+    if not w.attrs['name'].startswith('lista'):
+        def_value.append(w.attrs['name'])
+    #print(w.attrs['name'])
+
+def_value_v = []
+for item in soup.find_all('option',attrs={'selected':True}):
+    def_value_v.append(item.attrs['value'])
+    #print(''.join(str(item.find(text=True))));
+

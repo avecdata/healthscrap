@@ -1,0 +1,42 @@
+import urllib, bs4
+from bs4 import BeautifulSoup
+url = "http://tabnet.datasus.gov.br/cgi/deftohtm.exe?sih/cnv/qrbr.def"
+
+values = {'Linha' : 'Munic%EDpio',
+'Coluna' : '--N%E3o-Ativa--',
+'Incremento' : 'Dias_permanência',
+'Arquivos' : 'rbr1607.dbf',
+'SRegi%E3o' : 'TODAS_AS_CATEGORIAS__',
+'SUnidade_Federa%E7%E3o' : 'TODAS_AS_CATEGORIAS__',
+'SCapital' : 'TODAS_AS_CATEGORIAS__',
+'SMicrorregi%E3o' : 'TODAS_AS_CATEGORIAS__',
+'SReg.Metropolitana' : 'TODAS_AS_CATEGORIAS__',
+'SAglomerado_urbano' : 'TODAS_AS_CATEGORIAS__',
+'SEnsino%2FPesquisa' : 'TODAS_AS_CATEGORIAS__',
+'SEsfera_Administrativa' : 'TODAS_AS_CATEGORIAS__',
+'SNatureza' : 'TODAS_AS_CATEGORIAS__',
+'STipo_de_Estabelecimento' : 'TODAS_AS_CATEGORIAS__',
+'STipo_de_Gest%E3o' : 'TODAS_AS_CATEGORIAS__',
+'STipo_de_Prestador' : 'TODAS_AS_CATEGORIAS__',
+'STipo_da_Equipe':1,
+'STipo_da_Equipe':2,
+'STipo_da_Equipe':3,
+'zeradas' : 'exibirlz',
+'formato' : 'prn',
+'mostre' : 'Mostra'}
+
+
+data = urllib.parse.urlencode(values)
+binary_data = data.encode('utf8') 
+req = urllib.request.Request(url, binary_data)
+
+f = urllib.request.urlopen(req).read()
+
+soup = BeautifulSoup(f,'html.parser')
+
+print(soup.title)
+
+
+print(soup.prettify())
+letters = soup.find_all("div", class_="Escondido")
+letters
